@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.vendingMachine.mapper.BeverageMapper">
+	<!-- 음료 추가 -->
+	<insert id="insertBeverage"  parameterType="com.example.vendingMachine.dto.Beverage">
+	
+		<selectKey order="AFTER" keyProperty="beverageNo" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	
+		INSERT INTO beverage(
+			beverage_name,
+			beverage_type,
+			beverage_price,
+			beverage_stock,
+			create_date,
+			update_date	
+		) VALUES(
+			#{beverageName},
+			#{beverageType},
+			#{beveragePrice},
+			#{beverageStock},
+			NOW(),
+			NOW()
+		)	
+	</insert>
+	
+	<!-- 음료 재고 수정 -->
+	<update id="updateBeverageStock" parameterType="com.example.vendingMachine.dto.Beverage" >
+		UPDATE beverage
+		SET 
+			beverage_stock = #{beverageStock},
+			update_date = NOW()
+		WHERE beverage_no = #{beverageNo}
+	</update>
+	
+	<!-- 음료 가격 수정 -->
+	<update id="updateBeveragePrice" parameterType="com.example.vendingMachine.dto.Beverage" >
+		UPDATE beverage
+		SET 
+			beverage_price = #{beveragePrice},
+			update_date = NOW()
+		WHERE beverage_no = #{beverageNo}
+	</update>
+	
+	<!-- 음료 삭제 -->
+	<delete id="deleteBeverage" parameterType="int">
+		DELETE FROM beverage
+		WHERE beverage_no = #{beverageNo}
+	</delete>
+	
+	<!-- 음료 리스트 가져오기 -->
+	<select id="selectBeverages" resultType="com.example.vendingMachine.dto.Beverage">
+		SELECT 
+			beverage_no AS beverageNo,
+			beverage_name AS beverageName,
+			beverage_type AS beverageType,
+			beverage_price AS beveragePrice,
+			beverage_stock AS beverageStock,
+			create_date AS createDate,
+			update_date AS updateDate
+		FROM beverage
+	</select>
+	
+	<!-- 음료 상세 정보 -->
+	<select id="selectBeverage" parameterType="int" resultType="com.example.vendingMachine.dto.Beverage">
+		SELECT 
+			beverage_no AS beverageNo,
+			beverage_name AS beverageName,
+			beverage_type AS beverageType,
+			beverage_price AS beveragePrice,
+			beverage_stock AS beverageStock,
+			create_date AS createDate,
+			update_date AS updateDate
+		FROM beverage
+		WHERE beverage_no = #{beverageNo}
+	</select>
+</mapper>

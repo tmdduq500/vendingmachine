@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.vendingMachine.mapper.RevenueMapper">
+
+	<!-- 음료 구매시 수익 추가 -->
+	<insert id="insertRevenue" parameterType="com.example.vendingMachine.dto.Revenue">
+		INSERT INTO revenue(
+			beverage_no,
+			beverage_price,
+			create_date
+		) VALUES(
+			${beverageNo},
+			${beveragePrice},
+			NOW()
+		)
+	</insert>
+	
+	<select id="selectRevenues" resultType="map">
+		SELECT 
+			r.revenue_no AS revenueNo,
+			r.beverage_no AS beverageNo,
+			b.beverage_name AS beverageName,
+			b.beverage_type AS beverageType,
+			r.beverage_price AS beveragePrice,
+			r.create_date AS createDate
+		FROM revenue AS r LEFT JOIN beverage AS b
+		ON r.beverage_no = b.beverage_no
+		ORDER BY createDate
+	</select>
+</mapper>
