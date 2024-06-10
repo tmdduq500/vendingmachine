@@ -30,7 +30,8 @@ public class UserController {
 	private final RevenueService revenueService;
 	
 	@GetMapping("/beverages")
-	public String beverages(@RequestParam(name = "errMsg", required = false) String errMsg, 
+	public String beverages(@RequestParam(name = "errMsg", required = false) String errMsg,
+							@RequestParam(name = "buyBeverageName", required = false) String buyBeverageName,
 							@ModelAttribute("changeMoney") Money changeMoney,
 							Model model) {
 		// 음료 리스트 가져오기
@@ -41,12 +42,18 @@ public class UserController {
 		
 		log.debug("errMsg={}", errMsg);
 		log.debug("changeMoney={}", changeMoney);
+		
 	    if (errMsg != null && !errMsg.equals("")) {
 	        model.addAttribute("errMsg", errMsg);
 	    }
 	    log.debug("totalChangeMoney={}", changeMoney.getTotalMoney());
+	    
 	    if(changeMoney != null && changeMoney.getTotalMoney() != 0) {
 		    model.addAttribute("changeMoney", changeMoney);	    	
+	    }
+	    
+	    if (buyBeverageName != null && !buyBeverageName.equals("")) {
+	        model.addAttribute("buyBeverageName", buyBeverageName);
 	    }
 
 		return "beverages";
@@ -74,12 +81,16 @@ public class UserController {
 			// 3. 거스름돈 반환
 			changeMoney = userService.returnChange(inputBeverageNo, money);
 			
+			// 음료 구매 시 어떤 음료인지 beverage 뷰에 값 보내기
+			String buyBeverageName = vendingMachineService.getBeverage(inputBeverageNo).getBeverageName();
+			redirectAttributes.addFlashAttribute("buyBeverageName", buyBeverageName);
 			// 거스름돈이 있다면
 			if (changeMoney != null && changeMoney.getTotalMoney() != 0) {
 				// redirectAttributes.addFlashAttribute - 휘발성 redirectAttribute()
                 redirectAttributes.addFlashAttribute("changeMoney", changeMoney);
                 log.debug("totalChangeMoney={}", changeMoney.getTotalMoney());
             }
+			// revenue 테이블에 수익 추가
 			revenueService.addRevenue(inputBeverageNo);
 		}
 		
