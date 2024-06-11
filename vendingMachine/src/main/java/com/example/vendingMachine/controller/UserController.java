@@ -41,6 +41,7 @@ public class UserController {
 		model.addAttribute("beverages", beverages);
 		
 		log.debug("errMsg={}", errMsg);
+		log.debug("buyBeverageName={}", buyBeverageName);
 		log.debug("changeMoney={}", changeMoney);
 		
 	    if (errMsg != null && !errMsg.equals("")) {
@@ -68,18 +69,19 @@ public class UserController {
 		// 음료 구매
 		// 1. 투입 금액, 음료 가격 비교 - 구매 불가하다면 알림메시지반환
 		boolean canBuy = userService.canBuy(inputBeverageNo, money);
-		String errMsg = "";
+		
 		if(!canBuy) {
-			errMsg = URLEncoder.encode("금액이 부족합니다", "UTF-8");
+			redirectAttributes.addFlashAttribute("errMsg", "금액이 부족합니다");
+			return "redirect:/beverages";
 		}
 		
 		// 구매 가능하다면
-		Money changeMoney = null;
 		if(canBuy) {
 			// 2. 음료 재고 수정
 			userService.stockMinusOne(inputBeverageNo);
 			// 3. 거스름돈 반환
-			changeMoney = userService.returnChange(inputBeverageNo, money);
+			Money changeMoney = userService.returnChange(inputBeverageNo, money);
+			log.debug("changeMoney={}", changeMoney);
 			
 			// 음료 구매 시 어떤 음료인지 beverage 뷰에 값 보내기
 			String buyBeverageName = vendingMachineService.getBeverage(inputBeverageNo).getBeverageName();
@@ -94,9 +96,6 @@ public class UserController {
 			revenueService.addRevenue(inputBeverageNo);
 		}
 		
-		log.debug("errMsg={}", errMsg);
-		log.debug("changeMoney={}", changeMoney);
-		
-		return "redirect:/beverages?errMsg=" + errMsg;
+		return "redirect:/beverages";
 	}
 }

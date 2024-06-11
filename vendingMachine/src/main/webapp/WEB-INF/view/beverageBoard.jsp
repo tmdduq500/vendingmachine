@@ -19,8 +19,8 @@
             <th>beverageStock</th>
             <th>createDate</th>
             <th>updateDate</th>
-            <th>재고수정</th>
             <th>가격수정</th>
+            <th>재고수정</th>
         </tr>
         <c:forEach var="beverage" items="${beverages}">
             <tr>

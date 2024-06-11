@@ -17,6 +17,8 @@ public interface BeverageMapper {
 	int updateBeveragePrice(Beverage beverage);
 	// 음료 삭제
 	int deleteBeverage(int beverageNo);
+	// 음료 삭제(soft delete)
+	int softDeleteBeverage(int beverageNo);
 	// 음료 리스트 보기
 	List<Beverage> selectBeverages();
 	// 음료 상세 보기

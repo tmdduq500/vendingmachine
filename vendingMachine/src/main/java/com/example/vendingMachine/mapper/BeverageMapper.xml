@@ -49,6 +49,14 @@
 		WHERE beverage_no = #{beverageNo}
 	</delete>
 	
+	<!-- 음료 삭제(soft delete) -->
+	<update id="softDeleteBeverage" parameterType="int" >
+		UPDATE beverage
+		SET 
+			delete_date = NOW()
+		WHERE beverage_no = #{beverageNo}
+	</update>
+	
 	<!-- 음료 리스트 가져오기 -->
 	<select id="selectBeverages" resultType="com.example.vendingMachine.dto.Beverage">
 		SELECT 
@@ -60,6 +68,7 @@
 			create_date AS createDate,
 			update_date AS updateDate
 		FROM beverage
+		WHERE delete_date IS NULL
 	</select>
 	
 	<!-- 음료 상세 정보 -->
@@ -71,7 +80,8 @@
 			beverage_price AS beveragePrice,
 			beverage_stock AS beverageStock,
 			create_date AS createDate,
-			update_date AS updateDate
+			update_date AS updateDate,
+			delete_date AS deleteDate
 		FROM beverage
 		WHERE beverage_no = #{beverageNo}
 	</select>

@@ -66,11 +66,13 @@
 		<button type="submit">구매하기</button>
 	</form>
 	
-	<div>
-		${buyBeverageName }가 나왔습니다.
-	</div>
+	<c:if test="${buyBeverageName != null }">
+		<div>
+			<h2>${buyBeverageName }가 나왔습니다.</h2>
+		</div>
+	</c:if>
 	
-<%-- 	<c:if test="${changeMoney.getTotalMoney() != 0}"> --%>
+	<c:if test="${changeMoney.getTotalMoney() != 0}">
 		<div>
 			거스름돈 
 			<div>
@@ -90,6 +92,6 @@
 			</div>
 			총 ${changeMoney.getTotalMoney() }원이 나왔습니다.
 		</div>
-<%-- 	</c:if> --%>
+	</c:if>
 </body>
 </html>

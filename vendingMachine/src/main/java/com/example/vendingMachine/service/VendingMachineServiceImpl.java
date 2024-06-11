@@ -74,8 +74,10 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 
 	@Override
 	public void removeBeverage(int beverageNo) {
-		int row = beverageMapper.deleteBeverage(beverageNo);
+//		int row = beverageMapper.deleteBeverage(beverageNo);
 		
+		// soft delete로 변경
+		int row = beverageMapper.softDeleteBeverage(beverageNo);
 		log.debug("row={}", row);
 		
 		// row가 1이 아닐경우(삭제 실패시) transcational 발동 - 메서드 및 쿼리 rollback
