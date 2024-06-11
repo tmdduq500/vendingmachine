@@ -20,7 +20,12 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 	private final BeverageMapper beverageMapper;
 	
 	@Override
-	public void addBeverage(Beverage beverage) {
+	public boolean addBeverage(Beverage beverage) {
+		// 음료 금액 100원단위 인지 확인
+		int beveragePrice = beverage.getBeveragePrice();
+		if(beveragePrice % 100 != 0) {
+			return false;
+		}
 		// 음료 추가 후 결과 행 수 반환
 		int row = beverageMapper.insertBeverage(beverage);
 		log.debug("row={}", row);
@@ -29,6 +34,8 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 		if(row != 1) {
 			throw new RuntimeException();
 		}
+		
+		return true;
 	}
 
 	@Override

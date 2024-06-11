@@ -1,6 +1,5 @@
 package com.example.vendingMachine.controller;
 
-import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;

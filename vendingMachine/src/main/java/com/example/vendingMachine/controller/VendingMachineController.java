@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.vendingMachine.dto.Beverage;
 import com.example.vendingMachine.service.VendingMachineService;
@@ -36,14 +37,28 @@ public class VendingMachineController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(@RequestParam(name = "errMsg", required = false) String errMsg, Model model) {
+    	log.debug("errMsg={}", errMsg);
+    	if (errMsg != null && !errMsg.equals("")) {
+	        model.addAttribute("errMsg", errMsg);
+	    }
+    	
         return "addBeverage";
     }
     
     @PostMapping("/add")
-    public String add(Beverage beverage) {
+    public String add(Beverage beverage, RedirectAttributes redirectAttributes) {
     	log.debug("추가한 beverage={}", beverage);
-    	vendingMachineService.addBeverage(beverage);
+    	
+    	// 음료 추가 
+    	boolean successAdd = vendingMachineService.addBeverage(beverage);
+    	
+    	// 추가 실패했다면
+    	if(!successAdd) {
+    		redirectAttributes.addFlashAttribute("errMsg", "음료 가격은 100원 단위이상으로 설정 해주세요");
+    		return "redirect:/beverageBoard/add";
+    	}
+    	
         return "redirect:/beverageBoard";
     }
 

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,12 @@
 </head>
 <body>
 	<h1>음료 추가</h1>	
+	
+	<c:if test="${errMsg != null }">
+		<div>
+			${errMsg }
+		</div>
+	</c:if>
 	<form action="" method="post">
 		<table border="1">
 			<tr>
@@ -19,7 +26,7 @@
 			</tr>
 			<tr>
 				<th>beveragePrice</th>
-				<td><input type="number" name="beveragePrice" min="0" required="required"></td>
+				<td><input type="number" name="beveragePrice" min="0" required="required" placeholder="100원 단위이상 금액만 입력해주세요"></td>
 			</tr>
 			<tr>
 				<th>beverageStock</th>
