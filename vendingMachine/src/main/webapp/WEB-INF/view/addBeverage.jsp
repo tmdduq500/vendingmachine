@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>음료 추가</h1>	
-	
+	<a href="${pageContext.request.contextPath}/beverageBoard">돌아가기</a>
 	<c:if test="${errMsg != null }">
 		<div>
 			${errMsg }

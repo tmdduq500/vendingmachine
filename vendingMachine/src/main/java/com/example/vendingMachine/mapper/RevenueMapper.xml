@@ -27,4 +27,10 @@
 		ON r.beverage_no = b.beverage_no
 		ORDER BY createDate
 	</select>
+	
+	<update id="">
+		<where>
+			
+		</where>
+	</update>
 </mapper>

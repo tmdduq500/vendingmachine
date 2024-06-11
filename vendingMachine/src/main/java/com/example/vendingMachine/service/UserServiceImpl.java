@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService{
 		Money changeMoney = new Money();
 		int changeMoney10000 = change / 10000;
 		int changeMoney5000 = (change % 10000) / 5000;
-		int changeMoney1000 = ((change % 10000) % 5000) / 1000;
-		int changeMoney500 = (((change % 10000) % 5000) % 1000) / 500;
-		int changeMoney100 = ((((change % 10000) % 5000) % 1000) % 500) / 100;
+		int changeMoney1000 = (change % 5000) / 1000;
+		int changeMoney500 = (change % 1000) / 500;
+		int changeMoney100 = (change % 500) / 100;
 		
 		changeMoney.setMoney10000Cnt(changeMoney10000);
 		changeMoney.setMoney5000Cnt(changeMoney5000);

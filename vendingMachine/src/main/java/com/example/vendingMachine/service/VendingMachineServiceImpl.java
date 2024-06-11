@@ -60,11 +60,16 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 	}
 
 	@Override
-	public void editBeveragePrice(int beverageNo, int newBeveragePrice) {
-		log.debug("newBeverageStock={}", newBeveragePrice);
+	public boolean editBeveragePrice(int beverageNo, int newBeveragePrice) {
+		log.debug("newBeveragePrice={}", newBeveragePrice);
 		// newBeveragePrice이 0보다 작을경우
 		if(newBeveragePrice < 0) {
 			throw new RuntimeException();
+		}
+		
+		// 음료 금액 100원단위 인지 확인
+		if(newBeveragePrice % 100 != 0) {
+			return false;
 		}
 		
 		Beverage editBeverage = beverageMapper.selectBeverage(beverageNo);
@@ -77,6 +82,7 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 		if(row != 1) {
 			throw new RuntimeException();
 		}
+		return true;
 	}
 
 	@Override

@@ -37,7 +37,8 @@ public class VendingMachineController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam(name = "errMsg", required = false) String errMsg, Model model) {
+    public String add(@RequestParam(name = "errMsg", required = false) String errMsg, 
+    				  Model model) {
     	log.debug("errMsg={}", errMsg);
     	if (errMsg != null && !errMsg.equals("")) {
 	        model.addAttribute("errMsg", errMsg);
@@ -47,7 +48,8 @@ public class VendingMachineController {
     }
     
     @PostMapping("/add")
-    public String add(Beverage beverage, RedirectAttributes redirectAttributes) {
+    public String add(Beverage beverage,
+    				  RedirectAttributes redirectAttributes) {
     	log.debug("추가한 beverage={}", beverage);
     	
     	// 음료 추가 
@@ -63,24 +65,35 @@ public class VendingMachineController {
     }
 
     @GetMapping("/editPrice/{beverageNo}")
-    public String editPrice(@PathVariable int beverageNo, Model model) {
+    public String editPrice(@PathVariable int beverageNo, 
+    						Model model,
+    						@RequestParam(name = "errMsg", required = false) String errMsg) {
         log.debug("beverageNo={}", beverageNo);
-     // 음료 상세 메서드
+        // 음료 상세 메서드
         Beverage beverage = vendingMachineService.getBeverage(beverageNo);
         // model에 추가
         model.addAttribute("beverage", beverage);
+        
+        log.debug("errMsg={}", errMsg);
+        if (errMsg != null && !errMsg.equals("")) {
+	        model.addAttribute("errMsg", errMsg);
+	    }
         
         return "editPrice";
     }
     
     @PostMapping("/editPrice/{beverageNo}")
     public String editPrice(@PathVariable int beverageNo,
-    			  			@RequestParam int newBeveragePrice) {
+    			  			@RequestParam int newBeveragePrice,
+    			  			RedirectAttributes redirectAttributes) {
     	log.debug("beverageNo={}", beverageNo);
     	log.debug("newBeveragePrice={}", newBeveragePrice);
     	
-    	vendingMachineService.editBeveragePrice(beverageNo, newBeveragePrice);
-    	
+    	boolean successEdit = vendingMachineService.editBeveragePrice(beverageNo, newBeveragePrice);
+    	if(!successEdit) {
+    		redirectAttributes.addFlashAttribute("errMsg", "음료 가격은 100원 단위이상으로 설정 해주세요");
+    		return "redirect:/beverageBoard/editPrice/{beverageNo}";
+    	}
     	return "redirect:/beverageBoard";
     }
 
