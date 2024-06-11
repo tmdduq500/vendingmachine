@@ -22,15 +22,10 @@
 			b.beverage_name AS beverageName,
 			b.beverage_type AS beverageType,
 			r.beverage_price AS beveragePrice,
-			r.create_date AS createDate
+			r.create_date AS createDate,
+			(SELECT SUM(r1.beverage_price) FROM revenue r1) AS totalBeveragePrice
 		FROM revenue AS r LEFT JOIN beverage AS b
 		ON r.beverage_no = b.beverage_no
 		ORDER BY createDate
 	</select>
-	
-	<update id="">
-		<where>
-			
-		</where>
-	</update>
 </mapper>

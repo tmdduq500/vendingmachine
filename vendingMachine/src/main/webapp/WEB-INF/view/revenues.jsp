@@ -28,6 +28,10 @@
 				<td>${revenue.createDate }</td>
 			</tr>
 		</c:forEach>
+		<tr>
+			<td colspan="3"><b>총 수익</b></td>
+			<td colspan="3"><b>${revenues[0].totalBeveragePrice }원</b></td>
+		</tr>
 	</table>
 </body>
 </html>
