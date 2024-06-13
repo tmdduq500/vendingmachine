@@ -11,12 +11,12 @@
 	<a href="${pageContext.request.contextPath }/beverageBoard">관리자 모드</a>
 	<table border="1">
 		<tr>
-			<th>revenueNo</th>
-			<th>beverageNo</th>
-			<th>beverageName</th>
-			<th>beverageType</th>
-			<th>beveragePrice</th>
-			<th>createDate</th>
+			<th>수익 번호</th>
+			<th>음료 번호</th>
+			<th>음료 이름</th>
+			<th>음료 타입</th>
+			<th>수익</th>
+			<th>수익 발생일</th>
 		</tr>
 		<c:forEach var="revenue" items="${revenues }">
 			<tr>

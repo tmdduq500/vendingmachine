@@ -16,26 +16,26 @@
 	<form action="" method="post">
 		<table border="1">
 			<tr>
-				<th>beverageNo</th>
+				<th>음료 번호</th>
 				<td>
 					${beverage.beverageNo}
 					<input type="hidden" name="beverageNo" value="${beverage.beverageNo}">
 				</td>
 			</tr>
 			<tr>
-				<th>beverageName</th>
+				<th>음료 이름</th>
 				<td>${beverage.beverageName}</td>
 			</tr>
 			<tr>
-				<th>beverageType</th>
+				<th>음료 타입</th>
 				<td>${beverage.beverageType}</td>
 			</tr>
 			<tr>
-				<th>beveragePrice</th>
+				<th>가격</th>
 				<td><input type="number" name="newBeveragePrice" min="0" value="${beverage.beveragePrice}"> </td>
 			</tr>
 			<tr>
-				<th>beverageStock</th>
+				<th>재고</th>
 				<td>${beverage.beverageStock}</td>
 			</tr>
 

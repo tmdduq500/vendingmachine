@@ -12,13 +12,13 @@
     <a href="${pageContext.request.contextPath }/beverageBoard/add">음료 추가</a>
     <table border="1">
         <tr>
-            <th>beverageNo</th>
-            <th>beverageName</th>
-            <th>beverageType</th>
-            <th>beveragePrice</th>
-            <th>beverageStock</th>
-            <th>createDate</th>
-            <th>updateDate</th>
+            <th>음료 번호</th>
+            <th>음료 이름</th>
+            <th>음료 타입</th>
+            <th>가격</th>
+            <th>재고</th>
+            <th>음료 등록일</th>
+            <th>음료 정보 수정일</th>
             <th>가격수정</th>
             <th>재고수정</th>
         </tr>

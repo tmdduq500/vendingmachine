@@ -17,19 +17,19 @@
 	<form action="" method="post">
 		<table border="1">
 			<tr>
-				<th>beverageName</th>
+				<th>음료 이름</th>
 				<td><input type="text" name="beverageName" required="required"></td>
 			</tr>
 			<tr>
-				<th>beverageType</th>
-				<td><input type="text" name="beverageType" required="required"></td>
+				<th>음료 타입</th>
+				<td><input type="text" name="beverageType" required="required" placeholder="ex) 탄산음료,과일주스 ..."></td>
 			</tr>
 			<tr>
-				<th>beveragePrice</th>
+				<th>가격</th>
 				<td><input type="number" name="beveragePrice" min="0" required="required" placeholder="100원 단위이상 금액만 입력해주세요"></td>
 			</tr>
 			<tr>
-				<th>beverageStock</th>
+				<th>재고</th>
 				<td><input type="number" name="beverageStock" min="0" required="required"></td>
 			</tr>
 
