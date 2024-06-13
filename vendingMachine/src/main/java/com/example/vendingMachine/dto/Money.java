@@ -21,4 +21,12 @@ public class Money {
 			   this.money5000Cnt * 5000+ 
 			   this.money10000Cnt * 10000;
 	}
+	
+	public void setChangeMoney(int change) {
+		this.money10000Cnt = change / 10000;
+		this.money5000Cnt = (change % 10000) / 5000;
+		this.money1000Cnt = (change % 5000) / 1000;
+		this.money500Cnt = (change % 1000) / 500;
+		this.money100Cnt = (change % 500) / 100;
+	}
 }

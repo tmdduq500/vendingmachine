@@ -25,20 +25,10 @@ public class UserServiceImpl implements UserService{
 		int beveragePrice = beverageMapper.selectBeverage(inputBeverageNo).getBeveragePrice();
 		int totalMoney = money.getTotalMoney();
 		
+		// 거스름돈 반환
 		int change = totalMoney - beveragePrice;
-		// 거스름돈 반환 알고리즘
 		Money changeMoney = new Money();
-		int changeMoney10000 = change / 10000;
-		int changeMoney5000 = (change % 10000) / 5000;
-		int changeMoney1000 = (change % 5000) / 1000;
-		int changeMoney500 = (change % 1000) / 500;
-		int changeMoney100 = (change % 500) / 100;
-		
-		changeMoney.setMoney10000Cnt(changeMoney10000);
-		changeMoney.setMoney5000Cnt(changeMoney5000);
-		changeMoney.setMoney1000Cnt(changeMoney1000);
-		changeMoney.setMoney500Cnt(changeMoney500);
-		changeMoney.setMoney100Cnt(changeMoney100);
+		changeMoney.setChangeMoney(change);
 		
 		return changeMoney;
 	}
