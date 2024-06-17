@@ -19,20 +19,21 @@
             <th>재고</th>
             <th>음료 등록일</th>
             <th>음료 정보 수정일</th>
-            <th>가격수정</th>
-            <th>재고수정</th>
+            <th>삭제</th>
         </tr>
         <c:forEach var="beverage" items="${beverages}">
             <tr>
                 <td>${beverage.beverageNo}</td>
-                <td>${beverage.beverageName}</td>
+                <td>
+                	<a href="${pageContext.request.contextPath }/beverageBoard/edit/${beverage.beverageNo}">
+                		${beverage.beverageName}
+                	</a>
+               	</td>
                 <td>${beverage.beverageType}</td>
                 <td>${beverage.beveragePrice}</td>
                 <td>${beverage.beverageStock}</td>
                 <td>${beverage.createDate}</td>
                 <td>${beverage.updateDate}</td>
-                <td><a href="${pageContext.request.contextPath }/beverageBoard/editPrice/${beverage.beverageNo}">가격수정</a></td>
-                <td><a href="${pageContext.request.contextPath }/beverageBoard/editStock/${beverage.beverageNo}">재고수정</a></td>
                 <td>
                 	<form action="${pageContext.request.contextPath }/beverageBoard/remove" method="post">
                 		<input type="hidden" name="beverageNo" value="${beverage.beverageNo }">

@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 		Beverage editBeverage = beverageMapper.selectBeverage(inputBeverageNo);
 		int editBeverageStock = editBeverage.getBeverageStock() - 1;
 		editBeverage.setBeverageStock(editBeverageStock);
-		beverageMapper.updateBeverageStock(editBeverage);
+		beverageMapper.updateBeverage(editBeverage);
 	}
 
 

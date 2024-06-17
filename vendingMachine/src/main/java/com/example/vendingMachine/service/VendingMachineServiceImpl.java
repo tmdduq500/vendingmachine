@@ -21,68 +21,49 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 	
 	@Override
 	public boolean addBeverage(Beverage beverage) {
-		// 음료 금액 100원단위 인지 확인
-		int beveragePrice = beverage.getBeveragePrice();
-		if(beveragePrice % 100 != 0) {
-			return false;
-		}
-		// 음료 추가 후 결과 행 수 반환
-		int row = beverageMapper.insertBeverage(beverage);
-		log.debug("row={}", row);
+		boolean canAddBeverage = false;
 		
-		// row가 1이 아닐경우(입력 실패시) transcational 발동 - 메서드 및 쿼리 rollback
-		if(row != 1) {
-			throw new RuntimeException();
-		}
-		
-		return true;
-	}
-
-	@Override
-	public void editBeverageStock(int beverageNo, int newBeverageStock) {
-		log.debug("newBeverageStock={}", newBeverageStock);
-		// newBeverageStock이 0보다 작을경우
-		if(newBeverageStock < 0) {
-			throw new RuntimeException();
-		}
-		
-		Beverage editBeverage = beverageMapper.selectBeverage(beverageNo);
-		editBeverage.setBeverageStock(newBeverageStock);
-		
-		int row = beverageMapper.updateBeverageStock(editBeverage);
+		// 가격, 재고 유효성 검사 성공시 insertBeverage 메서드 실행
+		if(checkPrice(beverage.getBeveragePrice()) && checkStock(beverage.getBeverageStock())) {
+			// 음료 추가 후 결과 행 수 반환
+			int row = beverageMapper.insertBeverage(beverage);
+			log.debug("row={}", row);
 			
-		log.debug("row={}", row);
-		
-		// row가 1이 아닐경우(수정 실패시) transcational 발동 - 메서드 및 쿼리 rollback
-		if(row != 1) {
-			throw new RuntimeException();
+			// row가 1이 아닐경우(입력 실패시) transcational 발동 - 메서드 및 쿼리 rollback
+			if(row != 1) {
+				throw new RuntimeException();
+			}
+			
+			canAddBeverage = true;
 		}
+		
+		return canAddBeverage;
 	}
-
+	
 	@Override
-	public boolean editBeveragePrice(int beverageNo, int newBeveragePrice) {
+	public boolean editBeverage(int beverageNo, Beverage newBeverage) {
+		boolean canEditBeverage = false;
+		
+		log.debug("newBeverage={}", newBeverage);
+		
+		int newBeverageStock = newBeverage.getBeverageStock();
+		int newBeveragePrice = newBeverage.getBeveragePrice();
+		log.debug("newBeverageStock={}", newBeverageStock);
 		log.debug("newBeveragePrice={}", newBeveragePrice);
-		// newBeveragePrice이 0보다 작을경우
-		if(newBeveragePrice < 0) {
-			throw new RuntimeException();
+		
+		if(checkPrice(newBeveragePrice) && checkStock(newBeverageStock)) {
+			int row = beverageMapper.updateBeverage(newBeverage);
+			
+			// row가 1이 아닐경우(수정 실패시) transcational 발동 - 메서드 및 쿼리 rollback
+			if(row != 1) {
+				throw new RuntimeException();
+			}
+			log.debug("row={}", row);
+			
+			canEditBeverage = true;
 		}
 		
-		// 음료 금액 100원단위 인지 확인
-		if(newBeveragePrice % 100 != 0) {
-			return false;
-		}
-		
-		Beverage editBeverage = beverageMapper.selectBeverage(beverageNo);
-		editBeverage.setBeveragePrice(newBeveragePrice);
-		int row = beverageMapper.updateBeveragePrice(editBeverage);
-		
-		log.debug("row={}", row);
-		
-		// row가 1이 아닐경우(수정 실패시) transcational 발동 - 메서드 및 쿼리 rollback
-		if(row != 1) {
-			throw new RuntimeException();
-		}
-		return true;
+		return canEditBeverage;
 	}
 
 	@Override
@@ -109,6 +90,22 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 	@Override
 	public Beverage getBeverage(int beverageNo) {
 		return beverageMapper.selectBeverage(beverageNo);
+	}
+
+	@Override
+	public boolean checkStock(int beverageStock) {
+		if(beverageStock < 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean checkPrice(int beveragePrice) {
+		if(beveragePrice % 100 != 0) {
+			return false;
+		}
+		return true;
 	}
 
 }

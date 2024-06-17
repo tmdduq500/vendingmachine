@@ -7,7 +7,7 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<h1>가격 수정</h1>
+	<h1>음료 수정</h1>
 	<c:if test="${errMsg != null }">
 		<div>
 			${errMsg }
@@ -24,19 +24,25 @@
 			</tr>
 			<tr>
 				<th>음료 이름</th>
-				<td>${beverage.beverageName}</td>
+				<td>
+					${beverage.beverageName}
+					<input type="hidden" name="beverageName" value="${beverage.beverageName}">
+				</td>
 			</tr>
 			<tr>
 				<th>음료 타입</th>
-				<td>${beverage.beverageType}</td>
+				<td>
+					${beverage.beverageType}
+					<input type="hidden" name="beverageType" value="${beverage.beverageType}">
+				</td>
 			</tr>
 			<tr>
 				<th>가격</th>
-				<td><input type="number" name="newBeveragePrice" min="0" value="${beverage.beveragePrice}"> </td>
+				<td><input type="number" name="BeveragePrice" min="0" value="${beverage.beveragePrice}" placeholder="100원단위 이상으로 설정해주세요"></td>
 			</tr>
 			<tr>
 				<th>재고</th>
-				<td>${beverage.beverageStock}</td>
+				<td><input type="number" name="BeverageStock" min="0" value="${beverage.beverageStock}"></td>
 			</tr>
 
 		</table>

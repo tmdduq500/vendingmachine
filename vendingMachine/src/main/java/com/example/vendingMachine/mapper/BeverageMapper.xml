@@ -25,22 +25,18 @@
 		)	
 	</insert>
 	
-	<!-- 음료 재고 수정 -->
-	<update id="updateBeverageStock" parameterType="com.example.vendingMachine.dto.Beverage" >
+	<update id="updateBeverage" parameterType="com.example.vendingMachine.dto.Beverage">
 		UPDATE beverage
-		SET 
-			beverage_stock = #{beverageStock},
+		<set>
+			<if test="beveragePrice != null">
+	            beverage_price = #{beveragePrice},
+	        </if>
+	        <if test="beverageStock != null">
+	            beverage_stock = #{beverageStock},
+	        </if>
 			update_date = NOW()
-		WHERE beverage_no = #{beverageNo}
-	</update>
-	
-	<!-- 음료 가격 수정 -->
-	<update id="updateBeveragePrice" parameterType="com.example.vendingMachine.dto.Beverage" >
-		UPDATE beverage
-		SET 
-			beverage_price = #{beveragePrice},
-			update_date = NOW()
-		WHERE beverage_no = #{beverageNo}
+		</set>
+		WHERE beverage_no = #{beverageNo} 
 	</update>
 	
 	<!-- 음료 삭제 -->

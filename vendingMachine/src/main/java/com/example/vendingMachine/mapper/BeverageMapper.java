@@ -11,10 +11,8 @@ public interface BeverageMapper {
 	
 	// 음료 추가
 	int insertBeverage(Beverage beverage);
-	// 음료 재고 수정
-	int updateBeverageStock(Beverage beverage);
-	// 음료 가격 수정
-	int updateBeveragePrice(Beverage beverage);
+	// 음료 정보 수정
+	int updateBeverage(Beverage beverage);
 	// 음료 삭제
 	int deleteBeverage(int beverageNo);
 	// 음료 삭제(soft delete)

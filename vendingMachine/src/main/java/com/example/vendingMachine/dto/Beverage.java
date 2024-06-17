@@ -16,4 +16,12 @@ public class Beverage {
 	private int beverageStock;
 	private String createDate;
 	private String updateDate;
+	
+	public Beverage(String beverageName, String beverageType, int beveragePrice, int beverageStock) {
+		
+		this.beverageName = beverageName;
+		this.beverageType = beverageType;
+		this.beveragePrice = beveragePrice;
+		this.beverageStock = beverageStock;
+	}
 }
