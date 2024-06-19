@@ -92,7 +92,7 @@ public class VendingMachineController {
     	log.debug("beverageNo={}", beverageNo);
     	log.debug("newBeverage={}", newBeverage);
     	
-    	boolean successEdit = vendingMachineService.editBeverage(beverageNo, newBeverage);
+    	boolean successEdit = vendingMachineService.editBeverage(newBeverage);
     	log.debug("successEdit={}", successEdit);
     	
     	if(!successEdit) {

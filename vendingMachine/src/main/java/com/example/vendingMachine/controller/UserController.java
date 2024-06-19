@@ -67,33 +67,31 @@ public class UserController {
 		
 		// 음료 구매
 		// 1. 투입 금액, 음료 가격 비교 - 구매 불가하다면 알림메시지반환
-		boolean canBuy = userService.canBuy(inputBeverageNo, money);
 		
-		if(!canBuy) {
+		if(!userService.canBuy(inputBeverageNo, money)) {
 			redirectAttributes.addFlashAttribute("errMsg", "금액이 부족합니다");
 			return "redirect:/beverages";
 		}
 		
 		// 구매 가능하다면
-		if(canBuy) {
-			// 2. 음료 재고 수정
-			userService.stockMinusOne(inputBeverageNo);
-			// 3. 거스름돈 반환
-			Money changeMoney = userService.returnChange(inputBeverageNo, money);
-			log.debug("changeMoney={}", changeMoney);
-			
-			// 음료 구매 시 어떤 음료인지 beverage 뷰에 값 보내기
-			String buyBeverageName = vendingMachineService.getBeverage(inputBeverageNo).getBeverageName();
-			redirectAttributes.addFlashAttribute("buyBeverageName", buyBeverageName);
-			// 거스름돈이 있다면
-			if (changeMoney != null && changeMoney.getTotalMoney() != 0) {
-				// redirectAttributes.addFlashAttribute - 휘발성 redirectAttribute()
-                redirectAttributes.addFlashAttribute("changeMoney", changeMoney);
-                log.debug("totalChangeMoney={}", changeMoney.getTotalMoney());
-            }
-			// revenue 테이블에 수익 추가
-			revenueService.addRevenue(inputBeverageNo);
-		}
+		// 2. 음료 재고 수정
+		userService.stockMinusOne(inputBeverageNo);
+		// 3. 거스름돈 반환
+		Money changeMoney = userService.returnChange(inputBeverageNo, money);
+		log.debug("changeMoney={}", changeMoney);
+		
+		// 음료 구매 시 어떤 음료인지 beverage 뷰에 값 보내기
+		String buyBeverageName = vendingMachineService.getBeverage(inputBeverageNo).getBeverageName();
+		redirectAttributes.addFlashAttribute("buyBeverageName", buyBeverageName);
+		
+		// 거스름돈이 있다면
+		if (changeMoney != null && changeMoney.getTotalMoney() != 0) {
+			// redirectAttributes.addFlashAttribute - 휘발성 redirectAttribute()
+            redirectAttributes.addFlashAttribute("changeMoney", changeMoney);
+            log.debug("changeMoney={}", changeMoney);
+        }
+		// revenue 테이블에 수익 추가
+		revenueService.addRevenue(inputBeverageNo);
 		
 		return "redirect:/beverages";
 	}

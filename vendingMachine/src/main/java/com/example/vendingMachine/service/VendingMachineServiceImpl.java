@@ -24,7 +24,7 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 		boolean canAddBeverage = false;
 		
 		// 가격, 재고 유효성 검사 성공시 insertBeverage 메서드 실행
-		if(checkPrice(beverage.getBeveragePrice()) && checkStock(beverage.getBeverageStock())) {
+		if(validateBeverage(beverage)) {
 			// 음료 추가 후 결과 행 수 반환
 			int row = beverageMapper.insertBeverage(beverage);
 			log.debug("row={}", row);
@@ -41,17 +41,12 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 	}
 	
 	@Override
-	public boolean editBeverage(int beverageNo, Beverage newBeverage) {
+	public boolean editBeverage(Beverage newBeverage) {
 		boolean canEditBeverage = false;
 		
 		log.debug("newBeverage={}", newBeverage);
 		
-		int newBeverageStock = newBeverage.getBeverageStock();
-		int newBeveragePrice = newBeverage.getBeveragePrice();
-		log.debug("newBeverageStock={}", newBeverageStock);
-		log.debug("newBeveragePrice={}", newBeveragePrice);
-		
-		if(checkPrice(newBeveragePrice) && checkStock(newBeverageStock)) {
+		if(validateBeverage(newBeverage)) {
 			int row = beverageMapper.updateBeverage(newBeverage);
 			
 			// row가 1이 아닐경우(수정 실패시) transcational 발동 - 메서드 및 쿼리 rollback
@@ -93,18 +88,14 @@ public class VendingMachineServiceImpl implements VendingMachineService{
 	}
 
 	@Override
-	public boolean checkStock(int beverageStock) {
-		if(beverageStock < 0) {
+	public boolean validateBeverage(Beverage beverage) {
+		int beveragePrice = beverage.getBeveragePrice();
+		int beverageStock = beverage.getBeverageStock();
+		
+		if((beverageStock < 0) || (beveragePrice % 100 != 0)) {
 			return false;
 		}
-		return true;
-	}
-
-	@Override
-	public boolean checkPrice(int beveragePrice) {
-		if(beveragePrice % 100 != 0) {
-			return false;
-		}
+		
 		return true;
 	}
 
