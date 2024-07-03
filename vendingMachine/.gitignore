@@ -129,4 +129,5 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,git,eclipse
 
+/src/main/resources/application-db.yml
 /src/main/resources/application-db.properties

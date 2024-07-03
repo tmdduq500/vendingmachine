@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: vendingMachine
+    
+  profiles:
+    active:
+    - db
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+  
+server:
+  servlet:
+    context-path: /vendingMachine
+    
+  port: 80
+  
+logging:
+  level:
+    '[com.example.vendingMachine.controller]': debug
+    '[com.example.vendingMachine.service]': debug
+    '[com.example.vendingMachine.mapper]': debug 
+    
+mybatis:
+  mapper-locations:
+  - /mapper/*.xml
